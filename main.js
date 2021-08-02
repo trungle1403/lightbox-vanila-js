@@ -130,6 +130,10 @@ document.body.addEventListener('click', (e) =>{
         lightSrc = lightImage.getAttribute('src')
         index = [...images].findIndex(item => item.getAttribute('src') === lightSrc)
         index -= 1
+        //back to last
+        if(index <= 0){
+            index = images.length - 1
+        }
         const newSrc = [...images][index].getAttribute('src')
         lightImage.setAttribute('src',newSrc)
     } 
@@ -137,7 +141,11 @@ document.body.addEventListener('click', (e) =>{
     else if (e.target.matches('.btn-next')){
         lightSrc = lightImage.getAttribute('src')
         index = [...images].findIndex(item => item.getAttribute('src') === lightSrc)
-        index = index + 1
+        index += 1
+        //back to 0
+        if(index >= images.length){
+            index = 0
+        }
         const newSrc = [...images][index].getAttribute('src')
         lightImage.setAttribute('src',newSrc)
     }

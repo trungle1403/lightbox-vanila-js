@@ -75,8 +75,7 @@ body {
 }
 
 .header.sticky {
-    /* background-color: #fff; */
-    background: rgba(17, 17, 17, 0.938);
+    background: #3a6073ea;
     height: 80px;
     color: #111111;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
@@ -345,4 +344,10 @@ body {
     .images{
         grid-template-columns: 1fr;
     }
+    .lightbox .btn-prev{
+        left: 10px;
+    }
+    .lightbox .btn-next{
+        right: 10px;
+    } 
 }
