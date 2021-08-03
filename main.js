@@ -39,19 +39,38 @@ function clearData() {
         imageContainer.removeChild(imageContainer.firstChild)
     }
 }
+function createArrayRandom(data){
+    let arrayImg = []
+    for(let i = 0; i < data.length; i++){
+        let randomImg = Math.floor(Math.random() * data.length)
+        if(!arrayImg.includes(randomImg)){
+            arrayImg.push(randomImg)
+        }else {
+            i--;
+        }
+    }
+    return arrayImg;
+}
 
 //create img with js
 function createImage(data){
-    data.map(img => {
+    //tao mang ngau nhien
+    const newArr = createArrayRandom(data)
+    for(let i = 0; i < data.length; i++){
+        // lay so trong mang ngau nhien
+        //[2,3,4,1,5,23,12,5...]
+        let num = newArr[i]
+
         let imgEle = document.createElement('img')
-        imgEle.setAttribute('src',img.src)
+        imgEle.setAttribute('src',data[num].src)
         imgEle.classList.add('image')
         
+
         //images > content-image > desc > image + name + {category > item}
         //create div parent
         let divParent = document.createElement('div');
         divParent.classList.add('content-image');
-        divParent.setAttribute('data', img.name)
+        divParent.setAttribute('data', data[num].name)
 
         //create div desc 
         let divDesc = document.createElement('div');
@@ -61,7 +80,7 @@ function createImage(data){
         let divCategory = document.createElement('div');
         divCategory.classList.add('category-image');
 
-        img.category.forEach(item =>{
+        data[num].category.forEach(item =>{
             //span category-item
             let spanCategoryItem = document.createElement('span');
             spanCategoryItem.classList.add('category-item');
@@ -75,7 +94,7 @@ function createImage(data){
         //create div name 
         let divName = document.createElement('div');
         divName.classList.add('name-image');
-        divName.textContent = img.name;
+        divName.textContent = data[num].name;
 
         //add to div desc-image
         divDesc.appendChild(divCategory)
@@ -87,7 +106,7 @@ function createImage(data){
         divParent.addEventListener('click',showLightbox)
     
         imageContainer.appendChild(divParent)
-    })
+    }
     
 }
 createImage(dataImg)
@@ -115,7 +134,6 @@ txtSearch.addEventListener('keyup',(e) => {
 
 
 //event lightbox
-
 const images = document.querySelectorAll('.images img');
 let index = 0;
 document.body.addEventListener('click', (e) =>{
