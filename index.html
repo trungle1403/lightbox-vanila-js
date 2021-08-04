@@ -11,13 +11,14 @@
 <body>
     <div class="header">
         <div class="logo">
-            <h1> <span>Lightbox</span>  image</h1>
+            <a href='/'><h1><span>Lightbox</span>  image</h1></a>
         </div>
         <div class="search">
             <input type="text" class="search-text" placeholder="Search..." autocomplete="off">
         </div>
     </div>
     <div class="gallery-images">
+
         <div class="container">
             <div class="images">
                 <!-- <div class="content-image">
@@ -79,7 +80,34 @@
             </div>              
         </div>
     </div>
+    
+    <div class="btn-show-modal">
+        <span>+</span>
+    </div>
+    <div class="modal-add">
+        <div class="content-modal-add">
+            <div class="modal-header">
+                <h2>Add Image with  localStorage</h2>
+                <div class="btn-close">
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div class="modal-body">
+                <span>URL Image:</span>
+                <input type="text" class="url-image">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-add">add</button>
+                <button class="btn btn-cancel">cancel</button>
+            </div>
+        </div>
         
+    </div>
+
+    <!-- scroll bar -->
+    <div class="progressBar"></div>
+    <div class="scrollPath"></div>
 </body>
     <script src="api.js"></script>
     <script src="main.js"></script>

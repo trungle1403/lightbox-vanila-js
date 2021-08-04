@@ -54,6 +54,67 @@ body {
     color: #efcfe3;
 }
 
+/* scroll bar */
+::-webkit-scrollbar
+{
+    width: 0px;
+}
+.scrollPath 
+{
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 7px;
+    height: 100%;
+    background: rgba(255, 255, 255, .05);
+    z-index: 10000;
+}
+.progressBar 
+{
+    position: fixed;
+    top: 0;
+    z-index: 10000;
+    right: 0;
+    width: 7px;
+    height: 100%;
+    margin-left: 6px;
+    background: linear-gradient(to top, #008aff,#00ffe7);
+    animation: animateScroll 5s linear infinite;
+}
+@keyframes animateScroll
+{
+    0%,100%
+    {
+        filter: hue-rotate(0deg);
+    }
+    50%
+    {
+        filter: hue-rotate(360deg);
+    }
+}
+.progressBar::before
+{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top , #008aff,#00ffe7);
+    filter: blur(10px);
+}
+.progressBar::before
+{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top , #008aff,#00ffe7);
+    filter: blur(20px);
+}
+/* scroll bar end------------------------ */
 
 .container {
     width: 100%;
@@ -125,6 +186,7 @@ body {
     transition: .3s linear;
     cursor: zoom-in;
     user-select: none;
+    overflow: hidden;
 }
 .images .content-image:hover {
     box-shadow: 0 5px 10px rgba(0,0,0,0.3);
@@ -313,11 +375,11 @@ body {
     cursor: pointer;
     z-index: 999;
 }
-.lightbox .btn-close:hover{
+.btn-close:hover{
     transform:rotate(180deg);
 }
 
-.lightbox .btn-close span {
+.btn-close span {
     width: 100%;
     height: 3px;
     background-color: white;
@@ -326,14 +388,149 @@ body {
     position: relative;
     transition: all .3s ease;
 }
-.lightbox .btn-close span:first-child {
+.btn-close span:first-child {
     transform: rotate(45deg);
     top: 12px;
 }
-.lightbox .btn-close span:nth-child(2) {
+.btn-close span:nth-child(2) {
     transform: rotate(-45deg);
     top: -1px;
 }
+/* ============================ end  lightbox  ===================================== */
+/* ============================  modal add image with localStorage  ===================================== */
+
+.modal-add {
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 0 15px;
+    background-color: rgba(0,0,0,0.5);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0);
+    transition: all 0.3s ease;
+}
+.modal-add.active {
+    transform: scale(1);
+    opacity: 1;
+    visibility: visible;
+}
+.modal-add .content-modal-add {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 700px;
+}
+
+.modal-add .modal-header {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    justify-content:space-between;
+}
+.modal-add .modal-header h2 {
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 2rem;
+    color:#008aff;
+}
+
+.modal-add .btn-close {
+    margin-top: -10px;
+    width: 30px;
+    height: 30px;
+    border: 1px solid #111;
+    transition: all .3s ease;
+    cursor: pointer;
+    z-index: 999;
+}
+.modal-add .btn-close span {
+    background-color: #111;
+}
+
+.modal-add .modal-body {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 30px;
+}
+.modal-add .modal-body span {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    color:#111111;
+    font-weight: 600;
+}
+.modal-add .modal-body input {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    padding: 7px 10px;
+    border: 1px solid #111;
+    transition: all .3s ease;
+}
+.modal-add .modal-body input:focus {
+    border: 1px solid #008aff;
+}
+
+.modal-add .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+}
+.modal-add .modal-footer button {
+    font-size: 1.5rem;
+    padding: 5px 12px;
+    outline:none;
+    border: 1px solid #355c7d;
+    text-transform: uppercase;
+    margin-left: 20px;
+    transition: all 0.3s ease-in-out;
+    border-radius: 10px;
+    background-color: #fff;
+    color:#355c7d;
+}
+.modal-add .modal-footer button:hover {
+    background-color: #355c7d;
+    color: #fff;
+}
+.modal-add .modal-footer .btn-add {
+    color:#008aff;
+    border: 1px solid;
+}
+
+.btn-show-modal {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #fff;
+    width: 30px;
+    height: 30px;
+    border-radius:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all .3s ease;
+    user-select: none;
+    z-index: 998;
+}
+.btn-show-modal:hover {
+    transform: rotate(180deg);
+}
+.btn-show-modal span {
+    color:#008aff;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+/* ============================ end modal add image with localStorage  ===================================== */
 
 @media screen and (max-width: 1200px) {
     .images{

@@ -60,61 +60,85 @@ function createImage(data){
         // lay so trong mang ngau nhien
         //[2,3,4,1,5,23,12,5...]
         let num = newArr[i]
-
-        let imgEle = document.createElement('img')
-        imgEle.setAttribute('src',data[num].src)
-        imgEle.classList.add('image')
         
+        data[num].src.map(srcItem =>{
+            if(srcItem != data[num].name){
+                let imgEle = document.createElement('img')
+                imgEle.setAttribute('src',srcItem)
+                imgEle.classList.add('image')
 
-        //images > content-image > desc > image + name + {category > item}
-        //create div parent
-        let divParent = document.createElement('div');
-        divParent.classList.add('content-image');
-        divParent.setAttribute('data', data[num].name)
+                //images > content-image > desc > image + name + {category > item}
+                //create div parent
+                let divParent = document.createElement('div');
+                divParent.classList.add('content-image');
+                divParent.setAttribute('data', data[num].name)
 
-        //create div desc 
-        let divDesc = document.createElement('div');
-        divDesc.classList.add('desc-image');
+                //create div desc 
+                let divDesc = document.createElement('div');
+                divDesc.classList.add('desc-image');
 
-        //create div category 
-        let divCategory = document.createElement('div');
-        divCategory.classList.add('category-image');
+                //create div category 
+                let divCategory = document.createElement('div');
+                divCategory.classList.add('category-image');
 
-        data[num].category.forEach(item =>{
-            //span category-item
-            let spanCategoryItem = document.createElement('span');
-            spanCategoryItem.classList.add('category-item');
-            spanCategoryItem.classList.add(randomColor());
-            spanCategoryItem.textContent = item;
+                data[num].category.forEach(item =>{
+                    //span category-item
+                    let spanCategoryItem = document.createElement('span');
+                    spanCategoryItem.classList.add('category-item');
+                    spanCategoryItem.classList.add(randomColor());
+                    spanCategoryItem.textContent = item;
 
-            divCategory.appendChild(spanCategoryItem);
+                    divCategory.appendChild(spanCategoryItem);
+                })
+                
+
+                //create div name 
+                let divName = document.createElement('div');
+                divName.classList.add('name-image');
+                divName.textContent = data[num].name;
+
+                //add to div desc-image
+                divDesc.appendChild(divCategory)
+                divDesc.appendChild(divName)
+                
+                // add to div parent
+                divParent.appendChild(imgEle)
+                divParent.appendChild(divDesc)
+                divParent.addEventListener('click',showLightbox)
+            
+                imageContainer.appendChild(divParent)
+            }
         })
         
-
-        //create div name 
-        let divName = document.createElement('div');
-        divName.classList.add('name-image');
-        divName.textContent = data[num].name;
-
-        //add to div desc-image
-        divDesc.appendChild(divCategory)
-        divDesc.appendChild(divName)
-        
-        // add to div parent
-        divParent.appendChild(imgEle)
-        divParent.appendChild(divDesc)
-        divParent.addEventListener('click',showLightbox)
-    
-        imageContainer.appendChild(divParent)
     }
     
 }
-createImage(dataImg)
-//create event with html
-// images.forEach(image => image.addEventListener('click',showLightbox));
-// for(let i = 0; i < images.length; i++) {
-//     images[i].addEventListener('click',showLightbox)
-// }
+// createImage(dataImg)
+addLocalStorage()
+// ======================== localStorage ======================================
+function allStorage() {
+    var values = [],
+        keys = Object.keys(localStorage),
+        i = keys.length;
+
+    while ( i-- ) {
+        values.push( localStorage.getItem(keys[i]) );
+    }
+    return values;
+}
+function addLocalStorage() {
+    // clearData()
+    if (typeof(Storage) !== 'undefined') {
+        let arrStorage = allStorage();
+        arrStorage.map(item => {
+            imgArr[8].push(item)
+        })
+    }
+    createImage(dataImg)
+
+}
+
+
 txtSearch.addEventListener('keyup',(e) => {
     let contentImage = document.querySelectorAll('.images .content-image');
     contentImage.forEach(item => {
@@ -168,11 +192,11 @@ document.body.addEventListener('click', (e) =>{
         lightImage.setAttribute('src',newSrc)
     }
     
-    if (e.target.matches('.btn-close')){
+    if (e.target.matches('.lightbox .btn-close')){
         //remove lightbox out of dom
         document.body.removeChild(e.target.parentNode);
     }
-    if (e.target.matches('.btn-close span')){
+    if (e.target.matches('.lightbox .btn-close span')){
         //remove lightbox out of dom
         document.body.removeChild(e.target.parentNode.parentNode);
     }
@@ -184,3 +208,48 @@ window.addEventListener('scroll',function(){
     var header = document.querySelector('.header');
     header.classList.toggle('sticky',window.scrollY>0);
 })
+// scroll bar
+// let progress = document.getRootNode(scrollbars);
+let progress = document.querySelector('.progressBar');
+let totalHeight = document.body.scrollHeight - window.innerHeight;
+window.onscroll = function(){
+    let progressHeight = (window.pageYOffset / totalHeight)*100;
+    progress.style.height = progressHeight + "%";
+}
+// scroll bar end
+
+
+
+// ========================= modal =======================================
+
+const btnShowModal = document.querySelector('.btn-show-modal')
+const modalAdd = document.querySelector('.modal-add')
+const btnAddModal = document.querySelector('.modal-add .btn-add')
+const btnCloseModal = document.querySelector('.modal-add .btn-close')
+const btnCancelModal = document.querySelector('.modal-add .btn-cancel')
+
+
+btnShowModal.addEventListener('click', () => {
+    modalAdd.classList.toggle('active')
+})
+btnCloseModal.addEventListener('click', () => {
+    modalAdd.classList.toggle('active')
+})
+btnCancelModal.addEventListener('click', () => {
+    modalAdd.classList.toggle('active')
+})
+
+
+btnAddModal.addEventListener('click', () => {
+    const urlImg = document.querySelector('.modal-add .url-image')
+    let valueImg = urlImg.value
+    if(valueImg != '') {
+        localStorage.setItem(valueImg,valueImg)
+    }
+    modalAdd.classList.toggle('active')
+    urlImg.value = ''
+    window.location.reload()
+})
+
+// localStorage.setItem('test', 'https://i.pinimg.com/564x/d6/4a/86/d64a86c25d26a18cdfad916ddaa16e43.jpg');
+// localStorage.clear()
